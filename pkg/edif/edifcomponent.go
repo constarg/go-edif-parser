@@ -3,12 +3,12 @@ package edif
 type Component struct {
 	keyword  *Keyword // Holds the name of the keyword used before the component value.
 	name     *Name
-	values   []Value // Holds the component value, present after the keyword.
+	values   []ComponentValue // Holds the component value, present after the keyword.
 	dataType ValueType
 }
 
 func CreateComponent(
-	keyword *Keyword, name *Name, values []Value,
+	keyword *Keyword, name *Name, values []ComponentValue,
 ) *Component {
 	var newEdifComponent *Component
 
