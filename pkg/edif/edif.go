@@ -10,7 +10,7 @@ const (
 	StringType ValueType = 2
 	// IntegerType Represents an integer present in the EDIF file.
 	IntegerType ValueType = 3
-	// KeywordType Represents a tag present in the EDIF file.
+	// KeywordType Represents a keyword present in the EDIF file.
 	KeywordType ValueType = 4
 	// ListNameType Represents the identifier of a component, present in the
 	// EDIF file.
@@ -22,7 +22,7 @@ const (
 
 // ListValue Represents ANY datatype present in the EDIF file.
 type ListValue interface {
-	// Value Gets the value of the datatype (string, tag, integer, e.t.c).
+	// Value Gets the value of the datatype (string, keyword, integer, e.t.c).
 	Value() any
 	// DataType Gets the datatype code (ListNameType, KeywordType, e.t.c).
 	DataType() ValueType

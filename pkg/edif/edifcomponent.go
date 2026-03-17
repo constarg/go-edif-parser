@@ -1,34 +1,34 @@
 package edif
 
 type List struct {
-	tag        *Keyword // Holds the identifier of the tag used before the component value.
-	identifier *Name
-	children   []ListValue // Holds the component value, present after the tag.
+	keyword    *Keyword // Holds the keyword used before the list value.
+	identifier *Identifier
+	children   []ListValue // Holds the children of the currently examined list.
 	dataType   ValueType
 }
 
 func CreateComponent(
-	keyword *Keyword, name *Name, values []ListValue,
+	keyword *Keyword, name *Identifier, values []ListValue,
 ) *List {
-	var newEdifComponent *List
+	var newEdifList *List
 
-	newEdifComponent = new(List)
-	newEdifComponent.tag = keyword
-	newEdifComponent.children = values
-	newEdifComponent.dataType = ListType
+	newEdifList = new(List)
+	newEdifList.keyword = keyword
+	newEdifList.children = values
+	newEdifList.dataType = ListType
 
 	if name != nil {
-		newEdifComponent.identifier = name
+		newEdifList.identifier = name
 	}
 
-	return newEdifComponent
+	return newEdifList
 }
 
 func (edifComponent *List) Keyword() *Keyword {
-	return edifComponent.tag
+	return edifComponent.keyword
 }
 
-func (edifComponent *List) Name() *Name {
+func (edifComponent *List) Name() *Identifier {
 	return edifComponent.identifier
 }
 

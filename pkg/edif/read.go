@@ -77,5 +77,5 @@ func Read(filepath string) (*Edif, error) {
 	edifFile.Filename = fileInfo.Name()
 	edifFile.RootComponent = rootComponent
 
-	return nil, nil
+	return edifFile, nil
 }

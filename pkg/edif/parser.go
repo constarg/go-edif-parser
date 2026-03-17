@@ -11,11 +11,11 @@ import (
 // EDIF, otherwise an error is returned indicating the cause of failure.
 func parse(edifRawContent []byte) (*List, error) {
 	var (
-		// currEdifComponent Represents the component that is currently read.
-		currEdifComponent *List
+		// currEdifList Represents the component that is currently read.
+		currEdifList *List
 		// completeComponent Represents the component for which the parsing
 		// process is completed.
-		completedComponent *List
+		completedList *List
 
 		// examinedChunk Represents the current portion of the EDIF file
 		// to be parsed.
@@ -24,9 +24,9 @@ func parse(edifRawContent []byte) (*List, error) {
 		// portion of the EDIF file.
 		examinedChunkType ValueType
 
-		// edifComponentStack Holds the non-completed components who aught to
+		// edifListStack Holds the non-completed components who aught to
 		// be completed. It is useful to keep track of the nested components.
-		edifComponentStack list.List
+		edifListStack list.List
 		// edifNumberValue Holds the numeric representation of a string value,
 		// noticed during the parsing.
 		edifNumberValue int
@@ -37,7 +37,7 @@ func parse(edifRawContent []byte) (*List, error) {
 		err error
 	)
 	examinedChunk = nil
-	currEdifComponent = new(List)
+	currEdifList = new(List)
 
 	examinedChunkType = UnknownType
 
@@ -48,8 +48,8 @@ func parse(edifRawContent []byte) (*List, error) {
 			continue
 		}
 
-		// There are three cases by which it is safely to assume a tag,
-		// a identifier or a component's parsing is finished. This is when
+		// There are three cases by which it is safely to assume a keyword,
+		// a identifier or a list's parsing is finished. This is when
 		//		1. A open bracket is detected (which means a new
 		//		   component, os the datatype which is near it, can't go any
 		//	       further).
@@ -57,7 +57,7 @@ func parse(edifRawContent []byte) (*List, error) {
 		//		   therefore, it can be used to both detect where is the last
 		//		   digit of a number and to complete the parsing of a component.
 		//		3. An empty space, which is also very common near integers, or
-		//		   after a tag (like net, joined, rename, e.t.c.)
+		//		   after a keyword (like net, joined, rename, e.t.c.)
 		// The newline is used only to be ignored.
 		if character == '(' || character == ')' || character == ' ' || character == '\n' {
 			if examinedChunkType == IntegerType && len(examinedChunk) > 0 {
@@ -73,8 +73,8 @@ func parse(edifRawContent []byte) (*List, error) {
 					return nil, errors.New(errorMessage)
 				}
 
-				currEdifComponent.children = append(
-					currEdifComponent.children,
+				currEdifList.children = append(
+					currEdifList.children,
 					CreateInteger(edifNumberValue),
 				)
 				examinedChunk = nil
@@ -82,8 +82,8 @@ func parse(edifRawContent []byte) (*List, error) {
 			} else if examinedChunkType == StringType && len(examinedChunk) > 0 {
 				// Check if the element under parsing a string. Then, append
 				// the parsed content into the component list.
-				currEdifComponent.children = append(
-					currEdifComponent.children,
+				currEdifList.children = append(
+					currEdifList.children,
 					CreateString(string(examinedChunk)),
 				)
 				examinedChunk = nil
@@ -91,7 +91,7 @@ func parse(edifRawContent []byte) (*List, error) {
 			} else if examinedChunkType == KeywordType && len(examinedChunk) > 0 {
 				// Check if the element under parsing a Keyword. Then, append
 				// the parsed content into the component list.
-				currEdifComponent.tag = CreateKeyword(
+				currEdifList.keyword = CreateKeyword(
 					string(examinedChunk),
 				)
 
@@ -100,7 +100,7 @@ func parse(edifRawContent []byte) (*List, error) {
 			} else if examinedChunkType == ListNameType && len(examinedChunk) > 0 {
 				// Check if the element under parsing a identifier. Then, append
 				// the parsed content into the component list.
-				currEdifComponent.identifier = CreateName(
+				currEdifList.identifier = CreateIdentifier(
 					string(examinedChunk),
 				)
 
@@ -115,16 +115,16 @@ func parse(edifRawContent []byte) (*List, error) {
 				//		   continue, after the completion of the nested one.
 				//		2. To create the new component and fill it with the
 				//		   parsed children.
-				if currEdifComponent != nil {
-					edifComponentStack.PushBack(currEdifComponent)
+				if currEdifList != nil {
+					edifListStack.PushBack(currEdifList)
 				}
 				// After the initiation of a component ALWAYS it follows a
-				// tag (like net, renamed, joined, e.t.c).
+				// keyword (like net, renamed, joined, e.t.c).
 				examinedChunkType = KeywordType
 				examinedChunk = []byte{}
 
-				currEdifComponent = new(List)
-				currEdifComponent.children = []ListValue{}
+				currEdifList = new(List)
+				currEdifList.children = []ListValue{}
 				continue
 			} else if character == ')' {
 				// The close parenthesis indicates that the component finished.
@@ -132,14 +132,14 @@ func parse(edifRawContent []byte) (*List, error) {
 				// the stack, and also to add the completed component in the
 				// list of components of the one fetched from the stack (which
 				// is the one in higher order of nested components).
-				completedComponent = currEdifComponent
-				currEdifComponent = edifComponentStack.Back().Value.(*List)
-				currEdifComponent.children = append(
-					currEdifComponent.children,
-					completedComponent,
+				completedList = currEdifList
+				currEdifList = edifListStack.Back().Value.(*List)
+				currEdifList.children = append(
+					currEdifList.children,
+					completedList,
 				)
 
-				edifComponentStack.Remove(edifComponentStack.Back())
+				edifListStack.Remove(edifListStack.Back())
 				continue
 			}
 			continue
@@ -150,8 +150,8 @@ func parse(edifRawContent []byte) (*List, error) {
 			// If there was another quote detected earlier, when the string
 			// has been completed.
 			if examinedChunkType == StringType {
-				currEdifComponent.children = append(
-					currEdifComponent.children,
+				currEdifList.children = append(
+					currEdifList.children,
 					CreateString(string(examinedChunk)),
 				)
 				examinedChunk = nil
@@ -180,5 +180,5 @@ func parse(edifRawContent []byte) (*List, error) {
 		}
 	}
 
-	return currEdifComponent, nil
+	return currEdifList, nil
 }

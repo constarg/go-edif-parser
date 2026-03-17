@@ -1,24 +1,24 @@
 package edif
 
-type Name struct {
+type Identifier struct {
 	dataType ValueType
 	value    string
 }
 
-func CreateName(value string) *Name {
-	var newEdifName *Name
+func CreateIdentifier(value string) *Identifier {
+	var newEdifIdentifier *Identifier
 
-	newEdifName = new(Name)
-	newEdifName.value = value
-	newEdifName.dataType = ListNameType
+	newEdifIdentifier = new(Identifier)
+	newEdifIdentifier.value = value
+	newEdifIdentifier.dataType = ListNameType
 
-	return newEdifName
+	return newEdifIdentifier
 }
 
-func (edifName *Name) Value() any {
+func (edifName *Identifier) Value() any {
 	return edifName.value
 }
 
-func (edifName *Name) DataType() ValueType {
+func (edifName *Identifier) DataType() ValueType {
 	return edifName.dataType
 }
