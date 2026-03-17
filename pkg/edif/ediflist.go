@@ -1,8 +1,8 @@
-// File: edifkeyword.go
+// File: ediflist.go
 //
 // **********************************************************************
 //
-// Defines the behaviour of an EDIF keyword.
+// Defines the behaviour of an EDIF List.
 //
 // Copyright (C) 2026  Constantinos Argyriou
 //
@@ -28,25 +28,57 @@
 // is produced by EDA tools, like Vivado.
 package edif
 
-type Keyword struct {
+import "container/list"
+
+type List struct {
+	keyword     *Keyword // Holds the keyword used before the list value.
+	identifier  *Identifier
+	children    list.List // Holds the children of the currently examined list.
 	elementType ElementType
-	value       string
 }
 
-func CreateKeyword(value string) *Keyword {
-	var newEdifKeyword *Keyword
+func CreateComponent(
+	keyword *Keyword, name *Identifier,
+	values list.List, // TODO: Must take ListElement (EDIF).
+) *List {
+	var newEdifList *List
 
-	newEdifKeyword = new(Keyword)
-	newEdifKeyword.value = value
-	newEdifKeyword.elementType = KeywordType
+	newEdifList = new(List)
+	newEdifList.keyword = keyword
+	newEdifList.children = values
+	newEdifList.elementType = ListType
 
-	return newEdifKeyword
+	if name != nil {
+		newEdifList.identifier = name
+	}
+
+	return newEdifList
 }
 
-func (edifKeyword *Keyword) Value() any {
-	return edifKeyword.value
+func (edifList *List) Keyword() *Keyword {
+	return edifList.keyword
 }
 
-func (edifKeyword *Keyword) DataType() ElementType {
-	return edifKeyword.elementType
+func (edifList *List) Identifier() *Identifier {
+	return edifList.identifier
+}
+
+func (edifList *List) Value() any {
+	var (
+		edifElements    []ListElement
+		currListElement *list.Element
+	)
+	currListElement = edifList.children.Front()
+
+	for ; currListElement != nil; currListElement = currListElement.Next() {
+		edifElements = append(
+			edifElements, currListElement.Value.(ListElement),
+		)
+	}
+
+	return edifElements
+}
+
+func (edifList *List) DataType() ElementType {
+	return edifList.elementType
 }

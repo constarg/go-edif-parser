@@ -16,7 +16,11 @@ func TestEdif(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	fmt.Println(edif)
+	var test []ListElement
+
+	test = edif.RootComponent.Value().([]ListElement)
+
+	fmt.Println(test)
 
 	t.Skip()
 }

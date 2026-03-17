@@ -1,8 +1,36 @@
+// File: edifstring.go
+//
+// **********************************************************************
+//
+// Defines the behaviour of an EDIF string.
+//
+// Copyright (C) 2026  Constantinos Argyriou
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+//
+// Email: constarg@pm.me
+// ***********************************************************************
+
+// Package edif Contains various structures, and functions related to the
+// modification and parsing of EDIF (Electronic Design Interchange Format) files.
+// This can be used for example to manipulate the netlist of a circuit which
+// is produced by EDA tools, like Vivado.
 package edif
 
 type String struct {
-	dataType ValueType
-	value    string
+	elementType ElementType
+	value       string
 }
 
 func CreateString(value string) *String {
@@ -10,7 +38,7 @@ func CreateString(value string) *String {
 
 	newEdifString = new(String)
 	newEdifString.value = value
-	newEdifString.dataType = StringType
+	newEdifString.elementType = StringType
 
 	return newEdifString
 }
@@ -19,6 +47,6 @@ func (edifString *String) Value() any {
 	return edifString.value
 }
 
-func (edifString *String) DataType() ValueType {
-	return edifString.dataType
+func (edifString *String) DataType() ElementType {
+	return edifString.elementType
 }

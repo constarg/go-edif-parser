@@ -1,8 +1,8 @@
-// File: edifkeyword.go
+// File: edifidentifier.go
 //
 // **********************************************************************
 //
-// Defines the behaviour of an EDIF keyword.
+// Defines the behaviour of an EDIF identifier.
 //
 // Copyright (C) 2026  Constantinos Argyriou
 //
@@ -28,25 +28,25 @@
 // is produced by EDA tools, like Vivado.
 package edif
 
-type Keyword struct {
+type Identifier struct {
 	elementType ElementType
 	value       string
 }
 
-func CreateKeyword(value string) *Keyword {
-	var newEdifKeyword *Keyword
+func CreateIdentifier(value string) *Identifier {
+	var newEdifIdentifier *Identifier
 
-	newEdifKeyword = new(Keyword)
-	newEdifKeyword.value = value
-	newEdifKeyword.elementType = KeywordType
+	newEdifIdentifier = new(Identifier)
+	newEdifIdentifier.value = value
+	newEdifIdentifier.elementType = ListNameType
 
-	return newEdifKeyword
+	return newEdifIdentifier
 }
 
-func (edifKeyword *Keyword) Value() any {
-	return edifKeyword.value
+func (edifName *Identifier) Value() any {
+	return edifName.value
 }
 
-func (edifKeyword *Keyword) DataType() ElementType {
-	return edifKeyword.elementType
+func (edifName *Identifier) DataType() ElementType {
+	return edifName.elementType
 }
