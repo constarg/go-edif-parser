@@ -10,7 +10,7 @@ func CreateName(value string) *Name {
 
 	newEdifName = new(Name)
 	newEdifName.value = value
-	newEdifName.dataType = ComponentNameType
+	newEdifName.dataType = ListNameType
 
 	return newEdifName
 }

@@ -12,12 +12,12 @@ func Read(filepath string) (*Edif, error) {
 		// file Represents the EDIF file.
 		file *os.File
 		// fileInfo contains various information about the file, like the
-		// name of the file and its size.
+		// identifier of the file and its size.
 		fileInfo fs.FileInfo
 
 		// rootComponent Is the EDIF component which is above all other
 		// components.
-		rootComponent *Component
+		rootComponent *List
 		// edifFile Holds the contents of the EDIF file in the memory.
 		edifFile *Edif
 
