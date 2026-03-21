@@ -35,6 +35,9 @@ import (
 	"os"
 )
 
+// Read Reads the contents of an edif file, translating it into an EDIF data
+// structure. It returns the EDIF representation if succeeded, otherwise an
+// error is returned indicating the cause of failure.
 func Read(filepath string) (*Edif, error) {
 	var (
 		// file Represents the EDIF file.
@@ -43,7 +46,7 @@ func Read(filepath string) (*Edif, error) {
 		// identifier of the file and its size.
 		fileInfo fs.FileInfo
 
-		// rootComponent Is the EDIF component which is above all other
+		// root Is the EDIF component which is above all other
 		// components.
 		rootComponent *List
 		// edifFile Holds the contents of the EDIF file in the memory.
@@ -101,9 +104,10 @@ func Read(filepath string) (*Edif, error) {
 	}
 
 	edifFile = new(Edif)
-	edifFile.FilePath = filepath
-	edifFile.Filename = fileInfo.Name()
-	edifFile.RootComponent = rootComponent
+	edifFile.filePath = filepath
+	edifFile.filename = fileInfo.Name()
+	edifFile.root = rootComponent
+	edifFile.root.elementType = ListType
 
 	return edifFile, nil
 }

@@ -38,7 +38,7 @@ func CreateIdentifier(value string) *Identifier {
 
 	newEdifIdentifier = new(Identifier)
 	newEdifIdentifier.value = value
-	newEdifIdentifier.elementType = ListNameType
+	newEdifIdentifier.elementType = ListIdentifierType
 
 	return newEdifIdentifier
 }

@@ -123,7 +123,7 @@ func parse(edifRawContent []byte) (*List, error) {
 
 				examinedChunk = nil
 				examinedChunkType = UnknownType
-			} else if examinedChunkType == ListNameType && len(examinedChunk) > 0 {
+			} else if examinedChunkType == ListIdentifierType && len(examinedChunk) > 0 {
 				// Check if the element under parsing an identifier. Then, append
 				// the parsed content into the component list.
 				currEdifList.identifier = CreateIdentifier(
@@ -150,6 +150,7 @@ func parse(edifRawContent []byte) (*List, error) {
 				examinedChunk = []byte{}
 
 				currEdifList = new(List)
+				currEdifList.elementType = ListType
 				// currEdifList.children
 				continue
 			} else if character == ')' {
@@ -197,7 +198,7 @@ func parse(edifRawContent []byte) (*List, error) {
 				if character >= '0' && character <= '9' || character == '-' {
 					examinedChunkType = IntegerType
 				} else {
-					examinedChunkType = ListNameType
+					examinedChunkType = ListIdentifierType
 				}
 			}
 			examinedChunk = append(examinedChunk, character)

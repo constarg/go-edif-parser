@@ -34,7 +34,9 @@ import (
 	"errors"
 )
 
-func (edifList *List) RemoveElement(element *ListElement) error {
+// RemoveElement Removes the netlist element provided. If succeeded err = nli,
+// otherwise an error is returned indicating the cause of failure.
+func (edifList *List) RemoveElement(element ListElement) error {
 	// Holds the element to be removed.
 	var elementToRemove *list.Element
 

@@ -40,9 +40,9 @@ const (
 	IntegerType ElementType = 3
 	// KeywordType Represents a keyword present in the EDIF file.
 	KeywordType ElementType = 4
-	// ListNameType Represents the identifier of a component, present in the
+	// ListIdentifierType Represents the identifier of a component, present in the
 	// EDIF file.
-	ListNameType ElementType = 5
+	ListIdentifierType ElementType = 5
 	// UnknownType indicates that the type of datatype in the EDIF file, is
 	// not yet known.
 	UnknownType ElementType = 6
@@ -52,14 +52,30 @@ const (
 type ListElement interface {
 	// Value Gets the value of the datatype (string, keyword, integer, e.t.c).
 	Value() any
-	// DataType Gets the datatype code (ListNameType, KeywordType, e.t.c).
+	// DataType Gets the datatype code (ListIdentifierType, KeywordType, e.t.c).
 	DataType() ElementType
 }
 
 // Edif Models the EDIF file. Is essentially holding the whole
-// tree of components.
+// tree of netlists.
 type Edif struct {
-	Filename      string // Holds the identifier of the .edf file.
-	FilePath      string // Holds the path where the .edf file is stored.
-	RootComponent *List  // A pointer to the root component of the .edf.
+	filename string // Holds the identifier of the .edf file.
+	filePath string // Holds the path where the .edf file is stored.
+	root     *List  // A pointer to the root netlist of the .edf.
+}
+
+// RootList Returns the root netlist, which contains all the other netlists.
+func (edif *Edif) RootList() *List {
+	return edif.root
+}
+
+// FileName Returns the file name of the currently examined netlist file.
+func (edif *Edif) FileName() string {
+	return edif.filename
+}
+
+// FilePath Returns the path where the currently examined netlist file is
+// stored.
+func (edif *Edif) FilePath() string {
+	return edif.filePath
 }

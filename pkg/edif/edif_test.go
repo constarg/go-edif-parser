@@ -16,11 +16,13 @@ func TestEdif(t *testing.T) {
 		fmt.Println(err)
 	}
 
-	var test []ListElement
+	fmt.Println(edif)
+	// var test []ListElement
+	//
+	// test = edif.root.Value().([]ListElement)
 
-	test = edif.RootComponent.Value().([]ListElement)
-
-	fmt.Println(test)
+	// fmt.Println(len(test))
+	// fmt.Println(test[0].Value().([]ListElement)[0].DataType())
 
 	t.Skip()
 }

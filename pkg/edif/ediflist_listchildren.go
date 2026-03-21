@@ -28,11 +28,14 @@
 // is produced by EDA tools, like Vivado.
 package edif
 
+// ListChildren Lists all the netlist components which belong to a parent
+// component.
 func (edifList *List) ListChildren() []List {
-	var elements []List
+	// The list of children for the netlist.
+	var children []List
 
 	for curr := edifList.children.Front(); curr != nil; curr = curr.Next() {
-		elements = append(elements, curr.Value.(List))
+		children = append(children, curr.Value.(List))
 	}
-	return elements
+	return children
 }

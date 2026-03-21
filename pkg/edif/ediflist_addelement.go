@@ -34,8 +34,11 @@ import (
 	"errors"
 )
 
+// InsertElement Inserts a new netlist element after the provided, new element.
+// If err = nil, the element was inserted successfully, otherwise an error is
+// returned indicating the cause of failure.
 func (edifList *List) InsertElement(
-	element *ListElement, after *ListElement,
+	element ListElement, after ListElement,
 ) error {
 	// Holds the element of the list, after which the new element should
 	// be inserted.
@@ -51,6 +54,7 @@ func (edifList *List) InsertElement(
 	for curr := edifList.children.Front(); curr != nil; curr = curr.Next() {
 		if curr.Value == after {
 			markElement = curr
+			break
 		}
 	}
 
@@ -65,6 +69,6 @@ func (edifList *List) InsertElement(
 	return nil
 }
 
-func (edifList *List) PushElement(element *ListElement) {
+func (edifList *List) PushElement(element ListElement) {
 	edifList.children.PushBack(element)
 }
