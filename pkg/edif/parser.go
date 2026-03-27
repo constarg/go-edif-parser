@@ -151,7 +151,6 @@ func parse(edifRawContent []byte) (*List, error) {
 
 				currEdifList = new(List)
 				currEdifList.elementType = ListType
-				// currEdifList.children
 				continue
 			} else if character == ')' {
 				// The close parenthesis indicates that the component finished.
