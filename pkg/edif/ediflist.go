@@ -37,9 +37,9 @@ type List struct {
 	elementType ElementType
 }
 
-func CreateComponent(
-	keyword *Keyword, name *Identifier,
-	values list.List, // TODO: Must take ListElement (EDIF).
+func CreateList(
+	keyword *Keyword, identifier *Identifier,
+	values list.List,
 ) *List {
 	var newEdifList *List
 
@@ -48,11 +48,15 @@ func CreateComponent(
 	newEdifList.children = values
 	newEdifList.elementType = ListType
 
-	if name != nil {
-		newEdifList.identifier = name
+	if identifier != nil {
+		newEdifList.identifier = identifier
 	}
 
 	return newEdifList
+}
+
+func (edifList *List) Children() *list.List {
+	return &edifList.children
 }
 
 func (edifList *List) Keyword() *Keyword {

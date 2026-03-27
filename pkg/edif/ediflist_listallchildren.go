@@ -34,7 +34,7 @@ import "container/list"
 // pointers by doing there is no requirement to know the nested order of the
 // EDIF to access a specific component. It returns the slice of pointers to
 // all the components.
-func (edif *Edif) ListAllChildren() []*List {
+func (edifList *List) ListAllChildren() []*List {
 	var (
 		// The slice of pointers which contains all the components.
 		allChildren []*List
@@ -43,8 +43,8 @@ func (edif *Edif) ListAllChildren() []*List {
 		listChildrenQueue list.List
 	)
 
-	allChildren = append(allChildren, edif.root)
-	listChildrenQueue.PushBack(edif.root)
+	allChildren = append(allChildren, edifList)
+	listChildrenQueue.PushBack(edifList)
 
 	currList := listChildrenQueue.Front()
 	for ; currList != nil; currList = currList.Next() {

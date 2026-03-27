@@ -154,6 +154,7 @@ func Write(edif *Edif) error {
 			currElement = currElement.Next()
 		}
 	}
+	currListContentState += ")"
 
 	if file, err = os.OpenFile(
 		edif.filePath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644,
