@@ -22,10 +22,6 @@
 // Email: constarg@pm.me
 // ***********************************************************************
 
-// Package edif Contains various structures, and functions related to the
-// modification and parsing of EDIF (Electronic Design Interchange Format) files.
-// This can be used for example to manipulate the netlist of a circuit which
-// is produced by EDA tools, like Vivado.
 package edif
 
 type Integer struct {
