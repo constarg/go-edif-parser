@@ -1,4 +1,4 @@
-[![Go Reference](https://pkg.go.dev/badge/github.com/constarg/go-edif-parser@v0.0.0-20260327134332-d3db9050bc6b/pkg/edif.svg)](https://pkg.go.dev/github.com/constarg/go-edif-parser@v0.0.0-20260327134332-d3db9050bc6b/pkg/edif)
+[![Go Reference](https://pkg.go.dev/badge/github.com/constarg/go-edif-parser@v1.0.0-rc.1/pkg/edif.svg)](https://pkg.go.dev/github.com/constarg/go-edif-parser@v1.0.0-rc.1/pkg/edif)
 
 # Intruduction 
 I noticed that no parser currently exists for editing EDIF files using Go. This project was originally created for my MSc thesis,
