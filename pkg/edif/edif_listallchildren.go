@@ -1,8 +1,8 @@
-// File: ediflist_listchildren.go
+// File: edifinteger.go
 //
 // **********************************************************************
 //
-// Implements the list children function for a netlist.
+// Defines the behaviour of a EDIF integers.
 //
 // Copyright (C) 2026  Constantinos Argyriou
 //
@@ -28,14 +28,33 @@
 // is produced by EDA tools, like Vivado.
 package edif
 
-// ListChildren Lists all the netlist components which belong to a parent
-// component.
-func (edifList *List) ListChildren() []ListElement {
-	// The list of children for the netlist.
-	var children []ListElement
+import "container/list"
 
-	for curr := edifList.children.Front(); curr != nil; curr = curr.Next() {
-		children = append(children, curr.Value.(ListElement))
+// ListAllChildren Stores every component of the EDIF file into a slice of
+// pointers by doing there is no requirement to know the nested order of the
+// EDIF to access a specific component. It returns the slice of pointers to
+// all the components.
+func (edif *Edif) ListAllChildren() []*List {
+	var (
+		// The slice of pointers which contains all the components.
+		allChildren []*List
+
+		// The list children which should be accessed, but have not yet.
+		listChildrenQueue list.List
+	)
+
+	allChildren = append(allChildren, edif.root)
+	listChildrenQueue.PushBack(edif.root)
+
+	currList := listChildrenQueue.Front()
+	for ; currList != nil; currList = currList.Next() {
+		for _, currChild := range currList.Value.(*List).ListChildren() {
+			if currChild.DataType() == ListType {
+				allChildren = append(allChildren, currChild.(*List))
+				listChildrenQueue.PushBack(currChild)
+			}
+		}
 	}
-	return children
+
+	return allChildren
 }

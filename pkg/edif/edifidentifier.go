@@ -43,10 +43,10 @@ func CreateIdentifier(value string) *Identifier {
 	return newEdifIdentifier
 }
 
-func (edifName *Identifier) Value() any {
-	return edifName.value
+func (edifIdentifier *Identifier) Value() any {
+	return edifIdentifier.value
 }
 
-func (edifName *Identifier) DataType() ElementType {
-	return edifName.elementType
+func (edifIdentifier *Identifier) DataType() ElementType {
+	return edifIdentifier.elementType
 }
