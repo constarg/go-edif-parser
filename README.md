@@ -1,7 +1,7 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/constarg/go-edif-parser@v1.0.0-rc.1/pkg/edif.svg)](https://pkg.go.dev/github.com/constarg/go-edif-parser@v1.0.0-rc.1/pkg/edif)
 
 # Intruduction 
-This library supports the parsing and editting of netlist files produced by EDA tools like Vivado. It was originally made for parsing the POST-SYNTHESIS netlist produced by Xilinx Vivado. This EDIF parser supports any EDIF version, as the parsing logic is very generic.
+This library supports the parsing and editting of netlist files produced by EDA tools like Vivado. It was originally made for parsing the POST-SYNTHESIS netlist produced by Xilinx Vivado, but it can be used for modifying any .edif formatted file. This EDIF parser supports any EDIF version, as the parsing logic is very generic.
 
 # Installation Requirements
 
